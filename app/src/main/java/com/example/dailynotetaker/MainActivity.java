@@ -2,11 +2,13 @@ package com.example.dailynotetaker;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +21,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView displayBox;
@@ -70,11 +74,12 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     public void showTextBoxMessage(View view)
     {
         Context context = getApplicationContext();
         EditText textinput = (EditText)findViewById(R.id.textInput);
-        String txtin = textinput.getText().toString();
+        String txtin = (new Date()).toString()+" "+textinput.getText().toString();
         myDataset.add(txtin);
         Toast.makeText(context, "Saved", Toast.LENGTH_LONG).show();
 
