@@ -9,6 +9,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.view.Menu;
@@ -16,14 +18,35 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
+public class MainActivity extends AppCompatActivity {
+    private RecyclerView displayBox;
+    private RecyclerView.Adapter madapter;
+    private RecyclerView.LayoutManager layoutM;
+    ArrayList<String> myDataset;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        try
+        {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            displayBox = (RecyclerView)findViewById(R.id.displayBox);
+            displayBox.setHasFixedSize(true);
+            layoutM = new LinearLayoutManager(this);
+            displayBox.setLayoutManager(layoutM);
+            myDataset = new ArrayList<String>();
+            madapter = new MyAdapter(myDataset);
+            displayBox.setAdapter(madapter);
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG);
+        }
+
     }
 
     @Override
@@ -51,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
     {
         Context context = getApplicationContext();
         EditText textinput = (EditText)findViewById(R.id.textInput);
-        Toast.makeText(context,textinput.getText().toString(), Toast.LENGTH_LONG).show();
+        String txtin = textinput.getText().toString();
+        myDataset.add(txtin);
+        Toast.makeText(context, "Saved", Toast.LENGTH_LONG).show();
+
     }
 }
