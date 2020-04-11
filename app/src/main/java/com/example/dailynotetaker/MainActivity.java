@@ -25,9 +25,11 @@ import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
+    public static final String EXTRA_MESSAGE = "com.example.dailynotetaker.MESSAGE";
     private RecyclerView displayBox;
     private RecyclerView.Adapter madapter;
     private RecyclerView.LayoutManager layoutM;
+    private Intent intent;
     ArrayList<String> myDataset;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
+            intent = new Intent(this, DisplayMessageActivity.class);
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             layoutM = new LinearLayoutManager(this);
             displayBox.setLayoutManager(layoutM);
             myDataset = new ArrayList<String>();
-            madapter = new MyAdapter(myDataset);
+            madapter = new MyAdapter(myDataset, intent, this);
             displayBox.setAdapter(madapter);
         }
         catch(Exception e)
@@ -82,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
         String txtin = (new Date()).toString()+" "+textinput.getText().toString();
         myDataset.add(txtin);
         Toast.makeText(context, "Saved", Toast.LENGTH_LONG).show();
+    }
 
+    public void displayTextMessage(Intent intent)
+    {
+        startActivity(intent);
     }
 }
